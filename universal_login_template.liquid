@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{{ prompt.screen.texts.pageTitle }}</title>
+    {%- auth0:head -%}
+    <style>
+      button[type="submit"] {
+        position: relative;
+      }
+
+      .rocket-loader-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: grid;
+        place-items: center;
+        background: inherit;
+        border-radius: inherit;
+        animation: rocket-fade-in 200ms;
+      }
+
+      .rocket-circle-wrapper {
+        color: inherit;
+        height: 1.375rem;
+        width: 1.375rem;
+        animation: rocket-rotate 1.4s linear infinite;
+      }
+
+      .rocket-circle {
+        stroke: currentColor;
+        stroke-dasharray: 80px, 200px;
+        stroke-dashoffset: 0;
+        animation: rocket-circle 1.4s ease-in-out infinite;
+      }
+
+      @keyframes rocket-fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes rocket-rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes rocket-circle {
+        0% {
+          stroke-dasharray: 1px, 200px;
+          stroke-dashoffset: 0;
+        }
+        50% {
+          stroke-dasharray: 100px, 200px;
+          stroke-dashoffset: -15px;
+        }
+        100% {
+          stroke-dasharray: 100px, 200px;
+          stroke-dashoffset: -125px;
+        }
+      }
+    </style>
+  </head>
+  <body class="_widget-auto-layout">
+    {%- auth0:widget -%}
+  </body>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      const loaderHTML =
+        '<div class="rocket-loader-wrapper"><span class="rocket-circle-wrapper" role="progressbar"><svg viewBox="22 22 44 44"><circle class="rocket-circle" cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6"></circle></svg></span></div>';
+
+      const forms = document.querySelectorAll("form");
+
+      for (const form of forms) {
+        form.addEventListener("submit", (e) => {
+          const submitButton = e.submitter;
+          submitButton.innerHTML += loaderHTML;
+        });
+      }
+    });
+  </script>
+</html>
